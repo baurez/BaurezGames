@@ -1,5 +1,3 @@
-//using BaurezGames.Shared;
-
 using BaurezGames.Shared.MoreOrLessGame;
 
 using Microsoft.AspNetCore.Mvc;
