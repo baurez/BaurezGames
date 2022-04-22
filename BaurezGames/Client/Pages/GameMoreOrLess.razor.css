@@ -1,0 +1,24 @@
+﻿.results{
+	margin-top:2rem;
+	border:1px solid black;
+}
+
+.result th {
+
+}
+
+.results :is(td, th) {
+	padding:1rem;
+}
+
+.results tr.more td {
+	background-color:plum;
+}
+
+.results tr.less {
+	background-color:lightsteelblue;
+}
+
+.results tr.success {
+	background-color:mediumspringgreen;
+}

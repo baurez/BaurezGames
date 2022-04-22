@@ -1,0 +1,95 @@
+﻿@page "/Game/MoreOrLess"
+@using BaurezGames.Shared.MoreOrLessGame
+@inject HttpClient Http
+
+<PageTitle>Jeu du plus ou moins</PageTitle>
+
+<h1>Jeu du plus ou moins</h1>
+
+<a @onclick="StartNewGame" class="btn btn-primary">Démarrer une nouvelle partie</a>
+
+
+@if (!string.IsNullOrWhiteSpace(currentGameId))
+{
+    <div class="well well-sm">
+        ID de la partie : @currentGameId
+    </div>
+
+    @if (!responseFound)
+    {
+        <form @onsubmit="SubmitResponse">
+            <div>
+                Réponse: <input type="number" @bind-value="response" /> <button type="submit" class="btn btn-primary">Valider</button>
+            </div>
+        </form>
+    }
+
+    @if (previousResult != null)
+    {
+        <table class="results">
+            <thead>
+            <th>N°</th>
+            <th>Votre réponse</th>
+            <th>Score</th>
+            </thead>
+            <tbody>
+                @foreach (var item in previousResult.OrderByDescending(x => x.Item1))
+                {
+                    var className = "";
+                    var resultLabel = "";
+
+                    switch (item.Item2.Score)
+                    {
+                        case -1:
+                            className = "less";
+                            resultLabel = "Moins...";
+                            break;
+                        case 1:
+                            className = "more";
+                            resultLabel = "Plus...";
+                            break;
+                        case 0:
+                            className = "success";
+                            resultLabel = "BRAVO !!!";
+                            break;
+                    }
+
+                    <tr class="@className">
+                        <td>@item.Item1</td>
+                        <td>@item.Item2.SubmitedResponse</td>
+                        <td>@resultLabel</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+
+
+@code {
+    private string currentGameId = string.Empty;
+    private List<Tuple<int, MoreOrLessGameResult>> previousResult = null;
+    private int? response;
+    private bool responseFound => previousResult.Any(x => x.Item2.Score == 0);
+    private async Task StartNewGame()
+    {
+        currentGameId = await Http.GetStringAsync("Api/MoreOrLessGame/");
+        previousResult = new List<Tuple<int, MoreOrLessGameResult>>();
+    }
+
+    private async void SubmitResponse()
+    {
+        if (response.HasValue)
+        {
+            var submitResponse = new MoreOrLessGameResponse() { GameId = currentGameId, Value = response.Value };
+            using var httpResponse = await Http.PostAsJsonAsync<MoreOrLessGameResponse>("Api/MoreOrLessGame/", submitResponse);
+            var result = await httpResponse.Content.ReadFromJsonAsync<MoreOrLessGameResult>();
+            previousResult.Add(Tuple.Create(previousResult.Count + 1, result));
+            response = null;
+            this.StateHasChanged();
+        }
+    }
+
+
+}
