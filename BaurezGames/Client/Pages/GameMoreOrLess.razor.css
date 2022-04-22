@@ -3,10 +3,6 @@
 	border:1px solid black;
 }
 
-.result th {
-
-}
-
 .results :is(td, th) {
 	padding:1rem;
 }
