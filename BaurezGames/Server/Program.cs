@@ -1,4 +1,5 @@
 global using BaurezGames.Shared.MoreOrLessGame;
+global using BaurezGames.Shared.AdditionGame;
 
 using Microsoft.AspNetCore.ResponseCompression;
 
@@ -6,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSingleton<MoreOrLessGameService>(x=>new MoreOrLessGameService(builder.Environment.ContentRootPath));
+builder.Services.AddSingleton<AdditionGameService>(x => new AdditionGameService(builder.Environment.ContentRootPath));
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

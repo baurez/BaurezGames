@@ -28,9 +28,11 @@
     {
         <table class="results">
             <thead>
-            <th>N°</th>
-            <th>Votre réponse</th>
-            <th>Score</th>
+                <tr>
+                    <th>N°</th>
+                    <th>Votre réponse</th>
+                    <th>Score</th>
+                </tr>
             </thead>
             <tbody>
                 @foreach (var item in previousResult.OrderByDescending(x => x.Item1))

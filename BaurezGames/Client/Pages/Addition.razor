@@ -1,0 +1,124 @@
+﻿@page "/Game/Addition"
+@inject HttpClient Http
+
+<h3>Addition</h3>
+
+<div class="card">
+    <div class="card-body">
+        <form @onsubmit="StartNewGame">
+            <div class="form-group mb-1">
+                <label for="paramNbElement">Nombre d'élément du calcul</label>
+                <input id="paramNbElement" type="number" class="form-control form-control-sm" placeholder="Nombre d'élément du calcul" @bind-value="ParamNbElements">
+            </div>
+            <input type="submit" class="btn btn-primary" value="Démarrer une nouvelle partie" />
+        </form>
+    </div>
+</div>
+
+
+
+@if (!string.IsNullOrWhiteSpace(Question))
+{
+    <div class="calculator card">
+        <span class="calculator-question z-depth-1">
+            @Question
+        </span>
+        <form @onsubmit="Submit">
+            <input type="number" class="calculator-screen z-depth-1 @ClassSubmit" @bind-value="@InputValue" @ref="inputTextSubmit" />
+        </form>
+
+        <div class="calculator-keys">
+            <button type="button" class="operator btn btn-info" value="+" disabled>+</button>
+            <button type="button" class="operator btn btn-info" value="-" disabled>-</button>
+            <button type="button" class="operator btn btn-info" value="*" disabled>&times;</button>
+            <button type="button" class="operator btn btn-info" value="/" disabled>&divide;</button>
+
+            <button type="button" value="7" class="btn btn-light" @onclick='()=>Input("7")'>7</button>
+
+
+            <button type="button" value="8" class="btn btn-light" @onclick='()=>Input("8")'>8</button>
+            <button type="button" value="9" class="btn btn-light" @onclick='()=>Input("9")'>9</button>
+
+
+            <button type="button" value="4" class="btn btn-light" @onclick='()=>Input("4")'>4</button>
+            <button type="button" value="5" class="btn btn-light" @onclick='()=>Input("5")'>5</button>
+            <button type="button" value="6" class="btn btn-light" @onclick='()=>Input("6")'>6</button>
+
+
+            <button type="button" value="1" class="btn btn-light" @onclick='()=>Input("1")'>1</button>
+            <button type="button" value="2" class="btn btn-light" @onclick='()=>Input("2")'>2</button>
+            <button type="button" value="3" class="btn btn-light" @onclick='()=>Input("3")'>3</button>
+
+
+            <button type="button" value="0" class="btn btn-light" @onclick='()=>Input("0")'>0</button>
+            <button type="button" class="decimal function btn btn-secondary" value=".">.</button>
+            <button type="button" class="all-clear function btn btn-danger btn-sm" value="all-clear" @onclick="ClearResponse">AC</button>
+
+            <button type="button" class="equal-sign operator btn btn-primary" value="=" @onclick="Submit">=</button>
+
+        </div>
+    </div>
+
+}
+
+
+
+
+@code {
+    private string InputValue = "";
+    private string Question = "";
+    private int Result = 0;
+    private int ParamNbElements = 2;
+    private string ClassSubmit = "";
+
+    private ElementReference inputTextSubmit;
+
+    void ClearResponse()
+    {
+        InputValue = string.Empty;
+        ClassSubmit = "";
+        this.StateHasChanged();
+    }
+
+    void Input(string val)
+    {
+        InputValue += val;
+        this.StateHasChanged();
+    }
+
+
+    int count = 0;
+
+    async void Submit()
+    {
+        if (count == 1)
+        {
+            await StartNewGame();
+            return;
+        }
+
+
+        ClassSubmit = "bg-danger";
+        if (int.TryParse(InputValue, out int submittedValue))
+            if (submittedValue == Result)
+            {
+                ClassSubmit = "bg-success";
+                count = 1;
+            }
+
+    }
+
+    private async Task StartNewGame()
+    {
+        Question = await Http.GetStringAsync("Api/AdditionGame/?NbElements=" + ParamNbElements);
+        var values = Question.Replace(" ", "").Split('+').ToList();
+        Result = 0;
+        foreach (string item in values)
+        {
+            Result += int.Parse(item);
+        }
+        ClearResponse();
+        count = 0;
+        await inputTextSubmit.FocusAsync();
+    }
+}
