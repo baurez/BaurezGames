@@ -3,7 +3,7 @@ version: '3.4'
 
 services:
   baurezGames:
-    image: baurezGames
+    image: blazorhosted
     build:
       context: .
       dockerfile: BaurezGames/Server/Dockerfile
