@@ -10,9 +10,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/BaurezGames/Server/BaurezGames.Server.csproj", "BaurezGames/Server/"]
-COPY ["src/BaurezGames/Client/BaurezGames.Client.csproj", "BaurezGames/Client/"]
-COPY ["src/BaurezGames/Shared/BaurezGames.Shared.csproj", "BaurezGames/Shared/"]
+COPY ["BaurezGames/Server/BaurezGames.Server.csproj", "BaurezGames/Server/"]
+COPY ["BaurezGames/Client/BaurezGames.Client.csproj", "BaurezGames/Client/"]
+COPY ["BaurezGames/Shared/BaurezGames.Shared.csproj", "BaurezGames/Shared/"]
 RUN dotnet restore "BaurezGames/Server/BaurezGames.Server.csproj"
 COPY . .
 WORKDIR "/src/BaurezGames/Server"
