@@ -16,7 +16,7 @@ WORKDIR "/src/BaurezGames/Server"
 RUN dotnet build "BaurezGames.Server.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "BaurezGames.Server.csproj" -c Release -o /app/publish -r linux-arm64
+RUN dotnet publish "BaurezGames.Server.csproj" -c Release -o /app/publish -r debian.8-x64
 
 FROM base AS final
 WORKDIR /app
