@@ -19,7 +19,8 @@
     {
         <form @onsubmit="SubmitResponse">
             <div>
-                Réponse: <input type="number" @bind-value="response" /> <button type="submit" class="btn btn-primary">Valider</button>
+                Réponse: <input type="number" @bind-value="response" /> <button type="submit"
+            class="btn btn-primary">Valider</button>
             </div>
         </form>
     }
@@ -71,13 +72,13 @@
 
 @code {
     private string currentGameId = string.Empty;
-    private List<Tuple<int, MoreOrLessGameResult>> previousResult = null;
+    private List<Tuple<int, MoreOrLessGameResult>> previousResult = new List<Tuple<int, MoreOrLessGameResult>>();
     private int? response;
     private bool responseFound => previousResult.Any(x => x.Item2.Score == 0);
     private async Task StartNewGame()
     {
         currentGameId = await Http.GetStringAsync("Api/MoreOrLessGame/");
-        previousResult = new List<Tuple<int, MoreOrLessGameResult>>();
+        previousResult.Clear();
     }
 
     private async void SubmitResponse()
@@ -87,9 +88,13 @@
             var submitResponse = new MoreOrLessGameResponse() { GameId = currentGameId, Value = response.Value };
             using var httpResponse = await Http.PostAsJsonAsync<MoreOrLessGameResponse>("Api/MoreOrLessGame/", submitResponse);
             var result = await httpResponse.Content.ReadFromJsonAsync<MoreOrLessGameResult>();
-            previousResult.Add(Tuple.Create(previousResult.Count + 1, result));
-            response = null;
-            this.StateHasChanged();
+            if (result != null)
+            {
+                var newItem = Tuple.Create(previousResult.Count + 1, result);
+                previousResult.Add(newItem);
+                response = null;
+                this.StateHasChanged();
+            }
         }
     }
 
