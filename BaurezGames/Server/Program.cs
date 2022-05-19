@@ -1,13 +1,17 @@
 global using BaurezGames.Shared.MoreOrLessGame;
 global using BaurezGames.Shared.AdditionGame;
-
+using BaurezGames.Shared.Dicolink;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSwaggerGen();
+
 // Add services to the container.
 builder.Services.AddSingleton<MoreOrLessGameService>(x=>new MoreOrLessGameService(builder.Environment.ContentRootPath));
 builder.Services.AddSingleton<AdditionGameService>(x => new AdditionGameService(builder.Environment.ContentRootPath));
+builder.Services.AddSingleton<IDicolinkService>(x => new DicolinkService(new HttpClient(){BaseAddress = new Uri($"https://api.dicolink.com") }));
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -21,6 +25,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -28,7 +34,6 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();

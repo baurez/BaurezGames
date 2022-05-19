@@ -9,4 +9,12 @@
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dicolink\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
 </Project>

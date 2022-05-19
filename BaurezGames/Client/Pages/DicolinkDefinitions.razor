@@ -1,0 +1,85 @@
+﻿@page "/Dicolink/Definition"
+@using BaurezGames.Shared.Dicolink
+@using System.Text.Json.Serialization
+@using System.Net
+@using System.Text.Json
+@using System.Xml
+@using Newtonsoft.Json
+@using BaurezGames.Client.Component
+@using JsonSerializer = System.Text.Json.JsonSerializer
+@using Formatting = Newtonsoft.Json.Formatting
+
+@inject HttpClient Http
+
+<h3>Définition</h3>
+
+<div class="card">
+    <div class="card-body">
+        <form @onsubmit="SubmitHandler">
+            <div class="form-group mb-1">
+                <label for="inputWord">Mot à rechercher</label>
+                <input id="inputWord" class="form-control form-control-sm" placeholder="Mot à rechercher" @bind-value="_inputWord">
+            </div>
+            <div class="form-group mb-1">
+                <label for="inputLimit">Limite</label>
+                <input id="inputLimit" type="number" class="form-control form-control-sm" placeholder="Limite" @bind-value="_inputLimite">
+            </div>
+            <input type="submit" class="btn btn-primary" value="Valider" />
+        </form>
+    </div>
+</div>
+
+
+@if (Definitions is not null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div>
+                @foreach (var definition in Definitions)
+                {
+                    <dl class="row">
+                        <ComponentDtDd Text="ID" Value="@definition.Id"></ComponentDtDd>
+                        <ComponentDtDd Text="Nature" Value="@definition.Nature"></ComponentDtDd>
+                        <ComponentDtDd Text="Source" Value="@definition.Source"></ComponentDtDd>
+                        <ComponentDtDd Text="AttributionText" Value="@definition.AttributionText"></ComponentDtDd>
+                        <ComponentDtDd Text="AttributionUrl" Value="@definition.AttributionUrl"></ComponentDtDd>
+                        <ComponentDtDd Text="Mot" Value="@definition.Mot"></ComponentDtDd>
+                        <ComponentDtDd Text="Definition" Value="@definition.Definition"></ComponentDtDd>
+                        <ComponentDtDd Text="DicolinkUrl" Value="@definition.DicolinkUrl"></ComponentDtDd>
+                    </dl>
+                }
+            </div>
+        </div>
+    </div>
+
+}
+
+
+
+
+@code {
+    private string _inputWord = "";
+    private int _inputLimite = 1000;
+    private IEnumerable<DefinitionResponse>? Definitions;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+    private async Task SubmitHandler()
+    {
+        var request = await Http.GetAsync($"Api/Dicolink/?mot={_inputWord}&limite={_inputLimite}");
+
+
+        Definitions = request.StatusCode switch
+        {
+            HttpStatusCode.OK => await request.Content.ReadFromJsonAsync<IEnumerable<DefinitionResponse>>(),
+            _ => null
+        };
+    }
+
+
+
+
+
+}
