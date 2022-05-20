@@ -24,7 +24,7 @@ namespace BaurezGames.Server.Controllers
         }
 
         [HttpPost]
-        public MoreOrLessGameResult? Post(MoreOrLessGameResponse response)
+        public MoreOrLessGameResult? Post(MoreOrLessGameResponse? response)
         {
             return _moreOrLessGameService.SubmitResponse(response);
         }

@@ -1,8 +1,10 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
 using Newtonsoft.Json;
 
 namespace BaurezGames.Shared.Dicolink;
@@ -24,11 +26,16 @@ public class DicolinkService : IDicolinkService
 
         if (response.StatusCode != HttpStatusCode.OK) return null;
 
-        
+
         var byteArray = await response.Content.ReadAsByteArrayAsync();
         var responseString = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
 
-        return JsonConvert.DeserializeObject<IEnumerable<DefinitionResponse>>(responseString);
+
+        return responseString switch
+        {
+            "{\"error\":\"pas de résultats\"}" => null,
+            _ => JsonConvert.DeserializeObject<IEnumerable<DefinitionResponse>>(responseString)
+        };
     }
 
 }

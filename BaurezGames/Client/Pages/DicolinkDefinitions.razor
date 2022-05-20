@@ -38,6 +38,7 @@
                 @foreach (var definition in Definitions)
                 {
                     <dl class="row">
+                        @* ReSharper disable once DlTagContainsNonDtOrDdElements *@
                         <ComponentDtDd Text="ID" Value="@definition.Id"></ComponentDtDd>
                         <ComponentDtDd Text="Nature" Value="@definition.Nature"></ComponentDtDd>
                         <ComponentDtDd Text="Source" Value="@definition.Source"></ComponentDtDd>

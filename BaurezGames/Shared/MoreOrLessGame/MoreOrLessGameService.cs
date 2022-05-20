@@ -38,15 +38,18 @@ namespace BaurezGames.Shared.MoreOrLessGame
             return pathFile + gameId;
         }
 
-        public MoreOrLessGameResult? SubmitResponse(MoreOrLessGameResponse response)
+        public MoreOrLessGameResult? SubmitResponse(MoreOrLessGameResponse? response)
         {
-            if (response == null || response.GameId == string.Empty)
+            if (response is null || response.GameId == string.Empty)
                 return null;
 
-            var valueInTextFile = File.ReadAllText(GetPathToFile(response.GameId!));
-
-            if (!int.TryParse(valueInTextFile, out var value))
+            var pathFile = GetPathToFile(response.GameId!);
+            if (!File.Exists(pathFile))
                 return null;
+
+            var valueInTextFile = File.ReadAllText(pathFile);
+            var value = int.Parse(valueInTextFile);
+            
 
             var score = 0;
 

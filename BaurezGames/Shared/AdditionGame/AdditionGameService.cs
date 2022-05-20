@@ -8,11 +8,8 @@ namespace BaurezGames.Shared.AdditionGame
 {
     public class AdditionGameService
     {
-        private readonly string _basePath;
-
-        public AdditionGameService(string basePath)
+        public AdditionGameService()
         {
-            _basePath = basePath;
         }
         public string NewGame(int minValue, int maxValue, int numberOfElements)
         {
