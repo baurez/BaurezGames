@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BaurezGames.Shared.AdditionGame
+﻿namespace BaurezGames.Shared.AdditionGame
 {
-    public class AdditionGameService
+
+
+    public class AdditionGameService : IAdditionGameService
     {
         public AdditionGameService()
         {

@@ -1,5 +1,3 @@
-using BaurezGames.Shared.MoreOrLessGame;
-
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaurezGames.Server.Controllers
@@ -9,9 +7,9 @@ namespace BaurezGames.Server.Controllers
     public class MoreOrLessGameController : ControllerBase
     {
         private readonly ILogger<MoreOrLessGameController> _logger;
-        private readonly MoreOrLessGameService _moreOrLessGameService;
+        private readonly IMoreOrLessGameService _moreOrLessGameService;
 
-        public MoreOrLessGameController(ILogger<MoreOrLessGameController> logger, MoreOrLessGameService moreOrLessGameService)
+        public MoreOrLessGameController(ILogger<MoreOrLessGameController> logger, IMoreOrLessGameService moreOrLessGameService)
         {
             _logger = logger;
             _moreOrLessGameService = moreOrLessGameService;

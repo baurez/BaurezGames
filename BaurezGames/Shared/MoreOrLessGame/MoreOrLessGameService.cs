@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BaurezGames.Shared.MoreOrLessGame
+﻿namespace BaurezGames.Shared.MoreOrLessGame
 {
-    public class MoreOrLessGameService
+    public class MoreOrLessGameService : IMoreOrLessGameService
     {
         private readonly string _basePath;
 
@@ -28,7 +22,7 @@ namespace BaurezGames.Shared.MoreOrLessGame
             return randomBetweenMinValueAndMaxValue;
         }
 
-        private string GetPathToFile(string gameId)
+        public string GetPathToFile(string gameId)
         {
             var pathFile = $"{_basePath}\\Data\\GameOrLess\\";
 

@@ -1,15 +1,14 @@
 global using BaurezGames.Shared.MoreOrLessGame;
 global using BaurezGames.Shared.AdditionGame;
 using BaurezGames.Shared.Dicolink;
-using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
 
 // Add services to the container.
-builder.Services.AddSingleton<MoreOrLessGameService>(x=>new MoreOrLessGameService(builder.Environment.ContentRootPath));
-builder.Services.AddSingleton<AdditionGameService>(x => new AdditionGameService());
+builder.Services.AddSingleton<IMoreOrLessGameService, MoreOrLessGameService>(x=>new MoreOrLessGameService(builder.Environment.ContentRootPath));
+builder.Services.AddSingleton<IAdditionGameService, AdditionGameService>(x => new AdditionGameService());
 builder.Services.AddSingleton<IDicolinkService>(x => new DicolinkService(new HttpClient(){BaseAddress = new Uri($"https://api.dicolink.com") }));
 
 

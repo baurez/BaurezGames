@@ -1,10 +1,5 @@
 ﻿using System.Net;
-using System.Net.Http.Json;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
 using Newtonsoft.Json;
 
 namespace BaurezGames.Shared.Dicolink;

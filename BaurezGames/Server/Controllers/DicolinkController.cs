@@ -1,8 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
-using BaurezGames.Shared.Dicolink;
-
-using Microsoft.AspNetCore.Http;
+﻿using BaurezGames.Shared.Dicolink;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaurezGames.Server.Controllers

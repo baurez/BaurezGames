@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="bunit" Version="1.8.15" />
     <PackageReference Include="FluentAssertions" Version="6.7.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Moq" Version="4.18.1" />
@@ -24,10 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AdditionGame\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\BaurezGames\Server\BaurezGames.Server.csproj" />
     <ProjectReference Include="..\BaurezGames\Shared\BaurezGames.Shared.csproj" />
   </ItemGroup>
 

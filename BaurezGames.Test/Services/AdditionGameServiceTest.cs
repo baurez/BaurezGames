@@ -1,11 +1,11 @@
 ﻿using BaurezGames.Shared.AdditionGame;
 
-namespace BaurezGames.Test.AdditionGame;
+namespace BaurezGames.Test.Services;
 
 public class AdditionGameServiceTest
 {
     [Fact]
-    public void NewGame_SouldReturn1()
+    public void NewGame_ShouldReturn1()
     {
         var service = new AdditionGameService();
         var gameId = service.NewGame(1, 1, 1);
@@ -13,7 +13,7 @@ public class AdditionGameServiceTest
     }
 
     [Fact]
-    public void NewGame_SouldReturn1Plus1()
+    public void NewGame_ShouldReturn1Plus1()
     {
         var service = new AdditionGameService();
         var gameId = service.NewGame(1, 1, 2);
